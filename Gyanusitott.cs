@@ -19,6 +19,15 @@ namespace DigitalisNyomozas
 			this.statusz = statusz;
 		}
 
+		public void Donteshozo(Bizonyitek b)
+		{
+			this.gyanusitottsag = gyanusitottsag * (1 + b.Megbizhatosag/10);
+			if (this.gyanusitottsag >= 80)
+			{
+				Console.WriteLine($"{this.gyanusSzemely.ToString()} elérte a küszöbértéket!");
+			}
+		}
+
 		public int Gyanusitottsag { get => gyanusitottsag; set => gyanusitottsag = value; }
 		public string Statusz { get => statusz; set => statusz = value; }
 		internal Szemely GyanusSzemely { get => gyanusSzemely; set => gyanusSzemely = value; }
