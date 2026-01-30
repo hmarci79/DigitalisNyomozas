@@ -27,26 +27,56 @@ namespace DigitalisNyomozas
 		internal List<Szemely> Szemelyek { get => szemelyek; set => szemelyek = value; }
 		internal List<Bizonyitek> Bizonyitekok { get => bizonyitekok; set => bizonyitekok = value; }
 
+		public string UgyKiiras()
+		{
+			string s = "";
+			for (int i = 0; i < this.ugyek.Count(); i++)
+			{
+				s += (i+1) + ". " + this.ugyek[i].ToString() + "\n";
+			}
+			return s;
+		}
+
+		public string SzemelyKiiras()
+		{
+			string s = "";
+			for (int i = 0; i < this.szemelyek.Count(); i++)
+			{
+				s += (i+1)+". "+this.szemelyek[i].ToString()+"\n";
+			}
+			return s;
+		}
+
+		public string BizonyitekKiiras()
+		{
+			string s = "";
+			for (int i = 0; i < this.bizonyitekok.Count(); i++)
+			{
+				s += i + ". " + this.bizonyitekok[i].ToString() + "\n";
+			}
+			return s;
+		}
+
 		public override string ToString()
 		{
 			string s = "";
 			s += "Felhasználók:\n";
-			foreach (var item in felhasznalok)
+			foreach (var item in this.felhasznalok)
 			{
 				s += "-"+item.ToString()+"\n";
 			}
 			s += "Ügyek:\n";
-			foreach (var item in ugyek)
+			foreach (var item in this.ugyek)
 			{
 				s += "-" + item.ToString() + "\n";
 			}
 			s += "Személyek:\n";
-			foreach (var item in szemelyek)
+			foreach (var item in this.szemelyek)
 			{
 				s += "-" + item.ToString() + "\n";
 			}
 			s += "Bizonyítékok:\n";
-			foreach (var item in bizonyitekok)
+			foreach (var item in this.bizonyitekok)
 			{
 				s += "-" + item.ToString() + "\n";
 			}
