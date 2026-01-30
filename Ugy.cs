@@ -32,6 +32,11 @@ namespace DigitalisNyomozas
 		internal List<Szemely> UgyesSzemelyek { get => ugyesSzemelyek; set => ugyesSzemelyek = value; }
 		internal List<Bizonyitek> UgyesBizonyitekok { get => ugyesBizonyitekok; set => ugyesBizonyitekok = value; }
 
+		public void UgyAllapota(string ujStatusz)
+		{
+			this.allapot = ujStatusz;
+		}
+
 		public override string ToString()
 		{
 			string s = $"{this.cim} ({this.azonosito}/{this.allapot}): {this.leiras}\nSzemélyek:\n";
