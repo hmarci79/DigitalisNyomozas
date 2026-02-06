@@ -162,15 +162,67 @@ namespace DigitalisNyomozas
 			Console.WriteLine("Személy hozzáadva!");
         }
 
+        static void BKezeles(UgyKezelo uk, Adattar a1, BizonyitekKezelo b1)
+        {
+            Console.WriteLine("1. Bizonyíték rögzítése\n2. Bizonyíték hozzáadása ügyhöz\n3. Bizonyítékok kiiratása\n4. Vissza");
+			int vB = Convert.ToInt32(Console.ReadLine());
+			switch (vB)
+			{
+				case 1:
+					bLetrehozas(a1, b1);
+					break;
+				case 2:
+					BHAdas(uk, a1);
+					break;
+				case 3:
+					Console.WriteLine(a1.BizonyitekKiiras());
+					break;
+				case 4:
+					break;
+			}
+		}
+
+        static void bLetrehozas(Adattar a1, BizonyitekKezelo b1)
+        {
+            bool letezik = false;
+			Console.WriteLine("Adja meg a bizonyíték azonosítóját!\t");
+            int azonosito = Convert.ToInt32(Console.ReadLine());
+			Console.WriteLine("Adja meg a bizonyíték típusát!\t");
+            string tipus = Console.ReadLine();
+			Console.WriteLine("Adja meg a bizonyíték leírását!\t");
+            string leiras = Console.ReadLine();
+			Console.WriteLine("Adja meg a bizonyíték megbízhatóságát!\t");
+            int megbizhatosag = Convert.ToInt32(Console.ReadLine());
+            Bizonyitek b = new Bizonyitek(azonosito, tipus, leiras, megbizhatosag);
+			foreach (var item in a1.Bizonyitekok)
+			{
+				if (item.Azonosito == b.Azonosito)
+				{
+					letezik = true;
+				}
+			}
+			if (letezik)
+			{
+				Console.WriteLine("Már létezik bizonyíték, ezzel az azonosítóval.");
+			}
+			else
+			{
+				b1.Bizonyitekok.Add(b);
+				a1.Bizonyitekok.Add(b);
+				Console.WriteLine("Bizonyíték hozzáadva!");
+			}
+        }
+
 		static void Main(string[] args)
         {
             Adattar a1 = new Adattar();
 			UgyKezelo uk = new UgyKezelo();
+            BizonyitekKezelo b1 = new BizonyitekKezelo();
 
 			int valasztas = 0;
             do
             {
-				Console.WriteLine("1. Ügyek kezelése\n2. Személyek kezelése\n3. Bizonyítékok kezelése\n4. Idővonal megtekintése\n5. Elemzés / döntések\n6. Kilépés");
+				Console.WriteLine("1. Ügyek kezelése\n2. Személyek kezelése\n3. Bizonyítékok kezelése\n4. Idővonal megtekintése\n5. Elemzés / Döntések\n6. Kilépés");
                 valasztas = Convert.ToInt32(Console.ReadLine());
                 switch (valasztas)
                 {
@@ -179,6 +231,9 @@ namespace DigitalisNyomozas
                         break;
                     case 2:
                         SzKezeles(uk, a1);
+                        break;
+                    case 3:
+                        BKezeles(uk, a1, b1);
                         break;
                 }
             }

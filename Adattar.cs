@@ -52,7 +52,7 @@ namespace DigitalisNyomozas
 			string s = "";
 			for (int i = 0; i < this.bizonyitekok.Count(); i++)
 			{
-				s += i + ". " + this.bizonyitekok[i].ToString() + "\n";
+				s += (i+1) + ". " + this.bizonyitekok[i].ToString() + "\n";
 			}
 			return s;
 		}
