@@ -32,6 +32,11 @@ namespace DigitalisNyomozas
 			u.UgyesBizonyitekok.Add(b);
 		}
 
+		public void EsemenyekHozzadas(Ugy u, Idovonal e)
+		{
+			u.UgyesIdovonal.Add(e);
+		}
+
 		public override string ToString()
 		{
 			string s = "";

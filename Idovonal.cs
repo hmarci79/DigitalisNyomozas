@@ -8,21 +8,27 @@ namespace DigitalisNyomozas
 {
 	internal class Idovonal
 	{
-		private string datum;
+		private int ev;
+		private int honap;
+		private int nap;
 		private string leiras;
 
-		public Idovonal(string datum, string leiras)
+		public Idovonal(int ev, int honap, int nap, string leiras)
 		{
-			this.datum = datum;
+			this.ev = ev;
+			this.honap = honap;
+			this.nap = nap;
 			this.leiras = leiras;
 		}
 
-		public string Datum { get => datum; set => datum = value; }
+		public int Ev { get => ev; set => ev = value; }
+		public int Honap { get => honap; set => honap = value; }
+		public int Nap { get => nap; set => nap = value; }
 		public string Leiras { get => leiras; set => leiras = value; }
 
 		public override string ToString()
 		{
-			return $"{this.datum}: {this.leiras}";
+			return $"{this.ev}.{this.honap}.{this.nap}: {this.leiras}";
 		}
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System.Security.Cryptography;
+﻿using System.Net.Http.Headers;
+using System.Security.Cryptography;
 
 namespace DigitalisNyomozas
 {
@@ -6,7 +7,7 @@ namespace DigitalisNyomozas
     {
         static void UgyKezeles(UgyKezelo uk, Adattar a1)
         {
-			Console.WriteLine("1. Ügy létrehozása\n2. Személy hozzáadása\n3. Bizonyíték hozzáadása\n4. Állapot módosítása\n5. Ügyek kiírása\n6. Vissza");
+			Console.WriteLine("1. Ügy létrehozása\n2. Személy hozzáadása\n3. Bizonyíték hozzáadása\n4. Esemény hozzáadása idővonalhoz\n5. Állapot módosítása\n6. Ügyek kiírása\n7. Vissza");
 			int vUgy = Convert.ToInt32(Console.ReadLine());
 			switch (vUgy)
             {
@@ -20,12 +21,15 @@ namespace DigitalisNyomozas
                     BHAdas(uk, a1);
                     break;
                 case 4:
-                    AllMod(a1);
+                    EHAdas(uk, a1);
                     break;
                 case 5:
-                    Console.WriteLine(a1.UgyKiiras());
+                    AllMod(a1);
                     break;
                 case 6:
+                    Console.WriteLine(a1.UgyKiiras());
+                    break;
+                case 7:
                     break;
             }
         }
@@ -102,6 +106,31 @@ namespace DigitalisNyomozas
 				uk.BizonyitekHozzadas(a1.Ugyek[ui - 1], a1.Bizonyitekok[bi - 1]);
 			}
 
+		}
+
+        static void EHAdas(UgyKezelo uk, Adattar a1)
+        {
+			if (a1.Esemenyek.Count() == 0)
+			{
+				Console.WriteLine("Nincs hozzáadható esemény.");
+			}
+			else if (a1.Ugyek.Count() == 0)
+			{
+				Console.WriteLine("Nincsen ügy, amihez hozzá lehetne adni.");
+			}
+			else
+			{
+				Console.WriteLine($"Ügyek, amikhez hozzá lehet adni:\n{a1.UgyKiiras()}");
+				int ui = Convert.ToInt32(Console.ReadLine());
+				Console.WriteLine($"Hozzáadható események:\n{a1.EsemenyekKiiras()}");
+				int ei = Convert.ToInt32(Console.ReadLine());
+                if (!(a1.Ugyek[ui-1].UgyesIdovonal.Contains(a1.Esemenyek[ei - 1])))
+                {
+                    uk.EsemenyekHozzadas(a1.Ugyek[ui - 1], a1.Esemenyek[ei - 1]);
+					Console.WriteLine("Esemény hozzáadva!");
+                }
+                else { Console.WriteLine("Már hozzá van adva az ügyhöz ez az esemény."); }
+			}
 		}
 
         static void AllMod(Adattar a1)
@@ -213,6 +242,40 @@ namespace DigitalisNyomozas
 			}
         }
 
+        static void IdovonalKezeles(UgyKezelo uk, Adattar a1)
+        {
+			Console.WriteLine("1. Esemény felvétele\n2. Esemény hozzáadása ügyhöz\n3. Idővonal kiíratása\n4. Vissza");
+            int vI = Convert.ToInt32(Console.ReadLine());
+            switch (vI)
+            {
+                case 1:
+                    EFelvetel(uk, a1);
+                    break;
+                case 2:
+                    EHAdas(uk, a1);
+                    break;
+                case 3:
+                    Console.WriteLine(a1.EsemenyekKiiras());
+                    break;
+                case 4:
+                    break;
+			}
+        }
+
+        static void EFelvetel(UgyKezelo uk, Adattar a1)
+        {
+			Console.WriteLine("Adja meg az évet!\t");
+            int ev = Convert.ToInt32(Console.ReadLine());
+			Console.WriteLine("Adja meg a hónapot!\t");
+            int honap = Convert.ToInt32(Console.ReadLine());
+			Console.WriteLine("Adja meg a napot!\t");
+            int nap = Convert.ToInt32(Console.ReadLine());
+			Console.WriteLine("Adja meg az esemény leírását!\t");
+            string leiras = Console.ReadLine();
+            Idovonal e = new Idovonal(ev, honap, nap, leiras);
+            a1.Esemenyek.Add(e);
+        }
+
 		static void Main(string[] args)
         {
             Adattar a1 = new Adattar();
@@ -222,7 +285,7 @@ namespace DigitalisNyomozas
 			int valasztas = 0;
             do
             {
-				Console.WriteLine("1. Ügyek kezelése\n2. Személyek kezelése\n3. Bizonyítékok kezelése\n4. Idővonal megtekintése\n5. Elemzés / Döntések\n6. Kilépés");
+				Console.WriteLine("1. Ügyek kezelése\n2. Személyek kezelése\n3. Bizonyítékok kezelése\n4. Idővonal kezelése\n5. Elemzés / Döntések\n6. Kilépés");
                 valasztas = Convert.ToInt32(Console.ReadLine());
                 switch (valasztas)
                 {
@@ -234,6 +297,9 @@ namespace DigitalisNyomozas
                         break;
                     case 3:
                         BKezeles(uk, a1, b1);
+                        break;
+                    case 4:
+                        IdovonalKezeles(uk, a1 );
                         break;
                 }
             }

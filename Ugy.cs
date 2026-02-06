@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,6 +15,7 @@ namespace DigitalisNyomozas
 		private string allapot;
 		private List<Szemely> ugyesSzemelyek;
 		private List<Bizonyitek> ugyesBizonyitekok;
+		private List<Idovonal> ugyesIdovonal;
 
 		public Ugy(int azonosito, string cim, string leiras, string allapot)
 		{
@@ -23,6 +25,7 @@ namespace DigitalisNyomozas
 			this.allapot = allapot;
 			this.ugyesSzemelyek = new List<Szemely>();
 			this.ugyesBizonyitekok = new List<Bizonyitek>();
+			this.ugyesIdovonal = new List<Idovonal>();
 		}
 
 		public int Azonosito { get => azonosito; set => azonosito = value; }
@@ -31,6 +34,7 @@ namespace DigitalisNyomozas
 		public string Allapot { get => allapot; set => allapot = value; }
 		internal List<Szemely> UgyesSzemelyek { get => ugyesSzemelyek; set => ugyesSzemelyek = value; }
 		internal List<Bizonyitek> UgyesBizonyitekok { get => ugyesBizonyitekok; set => ugyesBizonyitekok = value; }
+		internal List<Idovonal> UgyesIdovonal { get => ugyesIdovonal; set => ugyesIdovonal = value; }
 
 		public void UgyAllapota(string ujStatusz)
 		{
@@ -49,7 +53,16 @@ namespace DigitalisNyomozas
 			{
 				s += "-"+item.ToString()+"\n";
 			}
-			s += "\n";
+			s += "Idővonal:\n";
+			if (this.ugyesIdovonal.Count() >= 2)
+			{
+				Adattar temp = new Adattar();
+				this.UgyesIdovonal = temp.IdovonalRendezes(this.UgyesIdovonal);
+			}
+			foreach (var item in this.UgyesIdovonal)
+			{
+				s += "-" + item.ToString() + "\n";
+			}
 			return s;
 		}
 	}
