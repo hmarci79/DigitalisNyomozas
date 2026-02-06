@@ -6,12 +6,12 @@ namespace DigitalisNyomozas
     {
         static void UgyKezeles(UgyKezelo uk, Adattar a1)
         {
-			Console.WriteLine("1. Ügy hozzáadása\n2. Személy hozzáadása\n3. Bizonyíték hozzáadása\n4. Állapot módosítása\n5. Ügyek kiírása\n6. Vissza");
+			Console.WriteLine("1. Ügy létrehozása\n2. Személy hozzáadása\n3. Bizonyíték hozzáadása\n4. Állapot módosítása\n5. Ügyek kiírása\n6. Vissza");
 			int vUgy = Convert.ToInt32(Console.ReadLine());
 			switch (vUgy)
             {
                 case 1:
-                    UgyHAdas(uk, a1);
+                    UgyLetrehozas(uk, a1);
                     break;
                 case 2:
                     SzHAdas(uk, a1);
@@ -28,11 +28,11 @@ namespace DigitalisNyomozas
                 case 6:
                     break;
             }
-
         }
 
-        static void UgyHAdas(UgyKezelo uk, Adattar a1)
+        static void UgyLetrehozas(UgyKezelo uk, Adattar a1)
         {
+            bool letezik = false;
 			Console.WriteLine("Adja meg az ügy azonosítóját!\t");
             int azonosito = Convert.ToInt32(Console.ReadLine());
 			Console.WriteLine("Adja meg az ügy címét!\t");
@@ -42,8 +42,24 @@ namespace DigitalisNyomozas
 			Console.WriteLine("Adja meg az ügy állapotát!\t");
             string allapot = Console.ReadLine();
             Ugy u = new Ugy(azonosito, cim, leiras, allapot);
-            uk.UjUgy(u);
-            a1.Ugyek.Add(u);
+            foreach (var item in uk.Ugyek)
+            {
+                if (item.Azonosito == u.Azonosito)
+                {
+					letezik = true;
+                }
+            }
+            if (letezik)
+            {
+				Console.WriteLine("Már létezik ügy, ezzel az azonosítóval.");
+            }
+            else
+            {
+                uk.UjUgy(u);
+                a1.Ugyek.Add(u);
+				Console.WriteLine("Ügy hozzáadva!");
+            }
+                
         }
 
         static void SzHAdas(UgyKezelo uk, Adattar a1)
@@ -113,6 +129,39 @@ namespace DigitalisNyomozas
 
 		}
 
+		static void SzKezeles(UgyKezelo uk, Adattar a1)
+		{
+			Console.WriteLine("1. Személy létrehozása\n2. Személy hozzáadása ügyhöz\n3. Személyek kiiratása\n4. Vissza");
+            int vSz = Convert.ToInt32(Console.ReadLine());
+            switch (vSz)
+            {
+                case 1:
+                    SzLetrehozas(a1);
+                    break;
+                case 2:
+                    SzHAdas(uk, a1);
+                    break;
+                case 3:
+					Console.WriteLine(a1.SzemelyKiiras());
+                    break;
+                case 4:
+                    break;
+            }
+		}
+
+        static void SzLetrehozas(Adattar a1)
+        {
+			Console.WriteLine("Adja meg a személy nevét!\t");
+            string nev = Console.ReadLine();
+			Console.WriteLine("Adja meg a személy életkorát!\t");
+            int kor = Convert.ToInt32(Console.ReadLine());
+			Console.WriteLine("Adjon meg egy megjegyzést ehhez a személyhez!\t");
+            string megjegyzes = Console.ReadLine();
+            Szemely sz = new Szemely(nev, kor, megjegyzes);
+            a1.Szemelyek.Add(sz);
+			Console.WriteLine("Személy hozzáadva!");
+        }
+
 		static void Main(string[] args)
         {
             Adattar a1 = new Adattar();
@@ -127,6 +176,9 @@ namespace DigitalisNyomozas
                 {
                     case 1: 
                         UgyKezeles(uk, a1);
+                        break;
+                    case 2:
+                        SzKezeles(uk, a1);
                         break;
                 }
             }
