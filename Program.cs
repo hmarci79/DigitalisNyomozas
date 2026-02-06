@@ -160,7 +160,7 @@ namespace DigitalisNyomozas
 
 		static void SzKezeles(UgyKezelo uk, Adattar a1)
 		{
-			Console.WriteLine("1. Személy létrehozása\n2. Személy hozzáadása ügyhöz\n3. Személyek kiiratása\n4. Vissza");
+			Console.WriteLine("1. Személy létrehozása\n2. Személy hozzáadása ügyhöz\n3. Személyek kiiratása\n4. Hozzáadás gyanúsítottakhoz\n5. Hozzáadás tanúkhoz\n6. Vissza");
             int vSz = Convert.ToInt32(Console.ReadLine());
             switch (vSz)
             {
@@ -174,6 +174,9 @@ namespace DigitalisNyomozas
 					Console.WriteLine(a1.SzemelyKiiras());
                     break;
                 case 4:
+                    Gyanusitas(uk, a1);
+                    break;
+                case 6:
                     break;
             }
 		}
@@ -190,6 +193,24 @@ namespace DigitalisNyomozas
             a1.Szemelyek.Add(sz);
 			Console.WriteLine("Személy hozzáadva!");
         }
+
+        static void Gyanusitas(UgyKezelo uk, Adattar a1)
+        {
+			if (a1.Szemelyek.Count() == 0)
+			{
+				Console.WriteLine("Nincs hozzáadható személy.");
+			}
+            else
+            {
+				Console.WriteLine($"Hozzáadható személyek:\n{a1.SzemelyKiiras()}");
+				int szi = Convert.ToInt32(Console.ReadLine());
+				Console.WriteLine("Adja meg a gyanúsítottságát!\t");
+                int gyanusitottsag = Convert.ToInt32(Console.ReadLine());
+                Console.WriteLine("Adja meg a státuszát!\t");
+                string statusz = Console.ReadLine();
+                Gyanusitott gy = new Gyanusitott(a1.Szemelyek[szi], gyanusitottsag, statusz);
+			}
+		}
 
         static void BKezeles(UgyKezelo uk, Adattar a1, BizonyitekKezelo b1)
         {
@@ -276,6 +297,11 @@ namespace DigitalisNyomozas
             a1.Esemenyek.Add(e);
         }
 
+        static void Elemzes(UgyKezelo uk, Adattar a1, BizonyitekKezelo b1)
+        {
+
+        }
+
 		static void Main(string[] args)
         {
             Adattar a1 = new Adattar();
@@ -300,6 +326,9 @@ namespace DigitalisNyomozas
                         break;
                     case 4:
                         IdovonalKezeles(uk, a1 );
+                        break;
+                    case 5:
+                        Elemzes(uk, a1, b1);
                         break;
                 }
             }
